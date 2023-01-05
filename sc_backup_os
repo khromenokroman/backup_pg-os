@@ -1,0 +1,19 @@
+#! /usr/bin/python3
+
+import os
+from datetime import datetime
+
+#create backup
+local_path = '/home/dima/backup-postgres' #папка для складывания бэкапов
+date = str(datetime.now().strftime('%Y-%m-%d-%H:%M:%S'))
+pc_name = str(os.uname()[1])
+name_back = f'backup-{pc_name}-{date}.tar.gz'
+
+#делаем бэкап при помощи tar
+try:
+    os.system(f'sudo tar zcvfp {local_path}/backup-unix-os/{name_back} --exclude=/proc --exclude=/sys --exclude={local_path} --exclude=/lost+found /')
+except Exception as ex:
+    print(ex)
+    flag = False
+else:
+    print('create tar END...')

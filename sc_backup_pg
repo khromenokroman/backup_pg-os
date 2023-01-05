@@ -1,0 +1,21 @@
+# ! /bin/sh
+
+# Зададим переменные
+DATE=$(date +%Y%m%d)-srv-1c-db
+
+#переходим папку
+cd /home/dima/backup-postgres/
+
+#Делаем бекапы баз
+
+#далион
+#=========================================================================================
+pg_dump -U postgres dalion-mag-shcool | gzip > $DATE-dalion-mag-shcool.backup.gz
+#=========================================================================================
+
+#Запакуем чтоб был 1 файл
+tar -zcvf $DATE.tar.gz ./*backup.gz
+
+#Уборка
+
+rm /home/dima/backup-postgres/*backup.gz

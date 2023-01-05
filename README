@@ -1,0 +1,32 @@
+Скрипты для создания бекапов (Ган)
+
+необходимо поместить их в планоровщик например так
+0 2 * * * /home/dima/sc_backup_pg
+0 3 * * * /home/dima/sc_backup_os
+
+#скрипт чтобы выполнить копирование из консоли
+tar zcvfp /media/backup-os/bakup-serv.tar.gz --exclude=/proc --exclude=/sys --exclude=/media --exclude=/lost+found /
+
+
+востановление
+ 
+sudo tar zxvfp /media/hp/backup-serv.tar.gz -C /media/comp
+cd /media/comp
+sudo mkdir sys
+sudo mkdir proc
+
+sudo mount --bind /dev/ /media/comp/dev
+sudo mount --bind /proc/ /media/comp/proc
+sudo mount --bind /sys/ /media/comp/sys
+
+chroot /media/comp
+grub-install /dev/sda
+update-grub
+nano /etc/fstab
+exit
+umount proc/
+umount sys/
+umount dev/
+umount /media/comp
+umount /media/hd
+reboot
